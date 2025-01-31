@@ -1,26 +1,59 @@
+
 import 'package:flutter/material.dart';
-import 'package:list_siswa_app/home_page.dart';
+import 'package:list_siswa_app/view/home_view.dart';
+import 'package:list_siswa_app/view/history_view.dart';
+import 'package:list_siswa_app/view/profile_view.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const Home());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'List Siswa',
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        //
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
 
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int currentIndex = 0;
+  final tabs = [
+    const HomeView(),
+    const HistoryView(),
+    const ProfileView(),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: tabs[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) => setState(() => currentIndex = index),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
+}
